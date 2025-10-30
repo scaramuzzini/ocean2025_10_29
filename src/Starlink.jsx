@@ -9,7 +9,7 @@ function Starlink() {
     
     useEffect(()=> {
         fetchSatelites(paginaAtual);
-    }, [paginaAtual]);
+    }, []);
 
     const fetchSatelites = async (pagina) => {
         const response = await axios.post('https://api.spacexdata.com/v4/starlink/query', 
@@ -20,7 +20,7 @@ function Starlink() {
                 page:pagina 
             }
         });
-        setSatelites(response.data.docs);
+        setSatelites((antigos) => [...antigos, ...response.data.docs]);
         console.log(response.data);
     }
 
