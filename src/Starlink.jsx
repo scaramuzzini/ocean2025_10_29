@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {useEffect, useState} from 'react';
-import { MapContainer, TileLayer, useMap } from 'react-leaflet'
+import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 
 function Starlink() {
@@ -35,6 +35,11 @@ function Starlink() {
             </ul> */}
             <MapContainer center={ocean} zoom={17} scrollWheelZoom={false} style={{height: '70vh'}}>
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                <Marker position={ocean}>
+                    <Popup>
+                        Este é o Ocean Manaus
+                    </Popup>
+                </Marker>
             </MapContainer>
         </>
     )
