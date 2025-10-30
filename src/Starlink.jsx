@@ -33,13 +33,19 @@ function Starlink() {
                     <li key={sat.id}>{sat.spaceTrack.OBJECT_NAME} LAT {sat.latitude}  LONG{sat.longitude}</li>
                 ))}
             </ul> */}
-            <MapContainer center={ocean} zoom={17} scrollWheelZoom={false} style={{height: '70vh'}}>
+            <MapContainer center={ocean} zoom={2} scrollWheelZoom={false} style={{height: '70vh'}}>
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                <Marker position={ocean}>
-                    <Popup>
-                        Este é o Ocean Manaus
-                    </Popup>
-                </Marker>
+                {satelites
+                    .filter((sat) => sat.latitude && sat.longitude)
+                    .map((sat) => (
+                        <Marker 
+                            key={sat.id}
+                            position={[sat.latitude, sat.longitude]}>
+                                <Popup>
+                                    {sat.spaceTrack.OBJECT_NAME}
+                                </Popup>
+                        </Marker>
+                ))}
             </MapContainer>
         </>
     )
