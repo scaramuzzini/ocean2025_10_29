@@ -1,24 +1,34 @@
 import axios from 'axios';
 import {useEffect, useState} from 'react';
-import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 
 function Starlink() {
     const [satelites,setSatelites] = useState([]);
+    const [paginaAtual,setPaginaAtual] = useState(1);
 
-    useEffect(()=> {
+    const fetchSatelites = async (pagina) => {
+        const response = await axios.post('https://api.spacexdata.com/v4/starlink/query', 
+        {
+            "query": {},
+            "options": { 
+                limit:100,
+                page:pagina 
+            }
+        });
+        setSatelites(response.data.docs);
+        console.log(response.data);
+    }
 
-        const fetchSatelites = async () => {
-            const response = await axios.post('https://api.spacexdata.com/v4/starlink/query', 
-            {
-                "query": {},
-                "options": { limit:100 }
-            });
-            setSatelites(response.data.docs);
-            console.log(response.data);
-        }
-        fetchSatelites();
-    },[]);
+    const carregarProximaPagina = () => {
+        //setPaginaAtual(paginaAtual + 1);
+        //fetchSatelites(paginaAtual);
+    }
+
+
+    // useEffect(()=> {
+    //     fetchSatelites(paginaAtual);
+    // }, [paginaAtual]);
     
 
     const ocean = [-3.0925454075226755, -60.0185281];
@@ -47,6 +57,8 @@ function Starlink() {
                         </Marker>
                 ))}
             </MapContainer>
+            <h3>Página atual:{paginaAtual}</h3>
+            <button onClick={carregarProximaPagina()}>Próxima página</button>
         </>
     )
 }
